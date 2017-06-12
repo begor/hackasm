@@ -1,8 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string>
-#include <bitset>
+#include "instruction.h"
 
 using namespace std;
 
@@ -36,7 +35,8 @@ string translate(string assembly) {
     char& first = assembly.front();
 
     if (first == '@') {
-        return translate_a_instruction(assembly);
+        auto inst = HackAsm::AInstruction(assembly);
+        return inst.to_binary();
     } else {
         cout << "This is a C instruction" << endl;
         return assembly;
