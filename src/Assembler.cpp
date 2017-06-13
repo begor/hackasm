@@ -1,4 +1,6 @@
 #include <iostream>
+#include <algorithm>
+#include <string>
 #include "Assembler.h"
 #include "Instruction.h"
 
@@ -16,7 +18,13 @@ void Assembler::read_file(string& file_name) {
     
     if (file.is_open()) {
         while (getline(file, line)) {
-            _asm_program.push_back(line);
+            string instruction = remove_comment(line);
+
+            cout << "Read: " << instruction << endl;
+            
+            if (instruction.size()) {
+                _asm_program.push_back(instruction);
+            }
         }
         file.close();
     } else {
@@ -30,6 +38,16 @@ program Assembler::assebmly() {
     }
 
     return _asm_program;
+}
+
+string Assembler::remove_comment(string& instruction) {
+    auto comment_start = instruction.find("//");
+    
+    if (comment_start != string::npos) {
+        return instruction.substr(0, comment_start);
+    }
+    
+    return instruction;
 }
 
 string Assembler::parse_instruction(string& instruction) {

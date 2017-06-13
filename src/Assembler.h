@@ -21,5 +21,6 @@ namespace HackAsm {
 
             void read_file(string& file_name);
             string parse_instruction(string& instruction);
+            string remove_comment(string& instruction);
     };
 };
