@@ -1,5 +1,5 @@
 #include <iostream>
-#include "instruction.h"
+#include "Instruction.h"
 
 using namespace std;
 using namespace HackAsm;
