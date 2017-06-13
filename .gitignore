@@ -1,4 +1,5 @@
 *.out
 *.asm
+*.hack
 asm
 .vscode/

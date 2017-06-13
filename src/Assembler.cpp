@@ -8,13 +8,19 @@ using namespace std;
 using namespace HackAsm;
 
 
-Assembler::Assembler(string file_name) {
-    read_file(file_name);
+Assembler::Assembler(string file_name) : _input_file_name(file_name) {  
+    get_output_file_name();  
+    read_file();
 };
 
-void Assembler::read_file(string& file_name) {
+void Assembler::get_output_file_name() {
+    auto dot_pos = _input_file_name.find('.');
+    _output_file_name = _input_file_name.substr(0, dot_pos) + ".hack";
+}
+
+void Assembler::read_file() {
     string line;
-    ifstream file(file_name);
+    ifstream file(_input_file_name);
     
     if (file.is_open()) {
         while (getline(file, line)) {
@@ -32,12 +38,15 @@ void Assembler::read_file(string& file_name) {
     }
 }
 
-program Assembler::assebmly() {
+void Assembler::assembly() {
+    ofstream file;
+    file.open(_output_file_name);
+
     for (string& instruction : _asm_program) {
-        cout << parse_instruction(instruction) << endl;
+        file << parse_instruction(instruction) << endl;
     }
 
-    return _asm_program;
+    file.close();
 }
 
 string Assembler::remove_comment(string& instruction) {
