@@ -38,8 +38,8 @@ string translate(string assembly) {
         auto inst = HackAsm::AInstruction(assembly);
         return inst.to_binary();
     } else {
-        cout << "This is a C instruction" << endl;
-        return assembly;
+        auto inst = HackAsm::CInstruction(assembly);
+        return inst.to_binary();
     }
 }
 
