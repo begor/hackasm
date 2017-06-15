@@ -12,11 +12,7 @@ int main(int argc, char* argv[]) {
     }
 
     auto file_name = argv[1];
-    
-    SymbolTable st = SymbolTable();
-
-    Assembler asmbl = Assembler(file_name, &st);
-    asmbl.assembly();
+    Assembler(file_name).assembly();
     
     return 0;
 }

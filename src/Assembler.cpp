@@ -8,65 +8,44 @@ using namespace std;
 using namespace HackAsm;
 
 
-Assembler::Assembler(string file_name, SymbolTable* table) : _input_file_name(file_name), _table(table) {  
-    get_output_file_name();  
-    read_file();
+Assembler::Assembler(string filename) : _input(filename) {  set_output_filename(); };
+
+void Assembler::set_output_filename() {
+    auto dot_pos = _input.find('.');
+    _output = _input.substr(0, dot_pos) + ".hack";
+    cout << "Output file: " << _output << endl;
 };
 
-void Assembler::get_output_file_name() {
-    auto dot_pos = _input_file_name.find('.');
-    _output_file_name = _input_file_name.substr(0, dot_pos) + ".hack";
-}
+void Assembler::assembly() {
+    program pr = read_file();
+    program out = parser.parse(pr);
+    write_file(out);
+};
 
-void Assembler::read_file() {
+program Assembler::read_file() {
+    program pr;
     string line;
-    ifstream file(_input_file_name);
+    ifstream file(_input);
     
     if (file.is_open()) {
-        while (getline(file, line)) {
-            string instruction = remove_comment(line);
-
-            cout << "Read: " << instruction << endl;
-            
-            if (instruction.size()) {
-                _asm_program.push_back(instruction);
-            }
+        while (getline(file, line)) {            
+            pr.push_back(line);
         }
         file.close();
     } else {
-        cout << "Unable to open file" << endl; // TODO: raise?
+        cout << "Unable to open file" << endl;
     }
-}
 
-void Assembler::assembly() {
+    return pr;
+};
+
+void Assembler::write_file(program& pr) {
     ofstream file;
-    file.open(_output_file_name);
+    file.open(_output);
 
-    for (string& instruction : _asm_program) {
-        file << parse_instruction(instruction) << endl;
+    for (string& instruction : pr) {
+        file << instruction << endl;
     }
 
     file.close();
-}
-
-string Assembler::remove_comment(string& instruction) {
-    auto comment_start = instruction.find("//");
-    
-    if (comment_start != string::npos) {
-        return instruction.substr(0, comment_start);
-    }
-    
-    return instruction;
-}
-
-string Assembler::parse_instruction(string& instruction) {
-    char& first = instruction.front();
-
-    if (first == '@') {
-        auto inst = AInstruction(instruction, _table);
-        return inst.to_binary();
-    } else {
-        auto inst = CInstruction(instruction);
-        return inst.to_binary();
-    }
-}
+};

@@ -4,30 +4,24 @@
 #include <fstream>
 #include <vector>
 #include "SymbolTable.h"
+#include "Parser.h"
 
 using namespace std;
 
 namespace HackAsm {
-    using program = vector<string>;
-
     class Assembler {
         public:
-            Assembler(string file_name, SymbolTable* table);
-            // TODO: decompose
+            Assembler(string file_name);
             void assembly();
             
-
         private:
-            SymbolTable* _table;  // TODO: shared_ptr
-            string _input_file_name;
-            string _output_file_name;
-            program _asm_program;
-            program _machine_program;
-
-            void read_file();
-            void write_file();
-            void get_output_file_name();
-            string parse_instruction(string& instruction);
-            string remove_comment(string& instruction);
+            Parser parser;
+            
+            string _input;
+            string _output;
+            
+            program read_file();
+            void set_output_filename();
+            void write_file(program& out);
     };
 };

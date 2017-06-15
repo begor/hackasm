@@ -4,12 +4,17 @@
 using namespace std;
 using namespace HackAsm;
 
-Instruction::Instruction(string& assembly_str) : assembly_str(assembly_str) {};
+Instruction::Instruction(string& inst) : _inst(inst) {};
+
+string Instruction::to_binary() { cout << "HERE" << endl; return ""; };
+
+
+AInstruction::AInstruction(string& inst, shared_ptr<SymbolTable> st) : Instruction(inst), _table(st) {};
 
 
 string AInstruction::to_binary() {
     string binary;
-    string addr_str = assembly_str.substr(1, assembly_str.size() - 1); // TODO: error handling
+    string addr_str = _inst.substr(1, _inst.size() - 1); // TODO: error handling
     
     int addr_dec;
     
@@ -25,10 +30,10 @@ string AInstruction::to_binary() {
 };
 
 void CInstruction::parse() {
-    auto eq_pos = assembly_str.find('='); // TODO: error handling
-    dest = assembly_str.substr(0, eq_pos);
+    auto eq_pos = _inst.find('='); // TODO: error handling
+    dest = _inst.substr(0, eq_pos);
     
-    string comp_n_jmp = assembly_str.substr(eq_pos + 1, assembly_str.size() - 1);
+    string comp_n_jmp = _inst.substr(eq_pos + 1, _inst.size() - 1);
 
     auto delim_pos = comp_n_jmp.find(';');
 
@@ -49,12 +54,17 @@ void CInstruction::parse() {
 
 string CInstruction::to_binary() {
     parse();
-    
-    cout << "Instruction: " << assembly_str << endl;
-    cout << "Dest: " << dest << endl;
-    cout << "Comp: " << comp << endl;
-    cout << "Jmp: " << jmp << endl;
-    cout << "A: " << a << endl;
+    return "111" + a + comp_to_binary() + dest_to_binary() + jmp_to_binary();
+};
 
-    return comp;
+string CInstruction::dest_to_binary() {
+    return dest_translations[dest];
+};
+
+string CInstruction::comp_to_binary() {
+    return comp_translations[comp];
+};
+
+string CInstruction::jmp_to_binary() {
+    return jmp_translations[jmp];
 };
