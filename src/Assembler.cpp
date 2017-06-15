@@ -63,7 +63,7 @@ string Assembler::parse_instruction(string& instruction) {
     char& first = instruction.front();
 
     if (first == '@') {
-        auto inst = AInstruction(instruction);
+        auto inst = AInstruction(instruction, _table);
         return inst.to_binary();
     } else {
         auto inst = CInstruction(instruction);

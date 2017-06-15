@@ -6,12 +6,16 @@ int SymbolTable::get(string key) {
     return _table[key];
 };
 
-void SymbolTable::put(string key) {
-    _table[key] = emptyMemReg++;
+// TODO: check exists
+
+int SymbolTable::put(string key) {
+    _table[key] = emptyMemReg;
+    return emptyMemReg++;
 };
 
-void SymbolTable::put(string key, int value) {
+int SymbolTable::put(string key, int value) {
     _table[key] = value;
+    return value;
 };
 
 bool SymbolTable::contains(string key) {

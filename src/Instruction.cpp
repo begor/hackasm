@@ -8,9 +8,19 @@ Instruction::Instruction(string& assembly_str) : assembly_str(assembly_str) {};
 
 
 string AInstruction::to_binary() {
+    string binary;
     string addr_str = assembly_str.substr(1, assembly_str.size() - 1); // TODO: error handling
-    int addr_dec = stoi(addr_str);
-    string binary = "0" + bitset<15>(addr_dec).to_string();
+    
+    int addr_dec;
+    
+    try {
+        addr_dec = stoi(addr_str);
+    } catch (const invalid_argument& e) {
+        addr_dec = _table->put(addr_str);
+        cout << "Generate addr " << addr_dec << endl;
+    }
+    
+    binary = "0" + bitset<15>(addr_dec).to_string();
     return binary;
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <bitset>
+#include "SymbolTable.h"
 
 using namespace std;
 
@@ -18,8 +19,11 @@ namespace HackAsm {
     // A-instruction (@21)
     class AInstruction : public Instruction {
         public:
-            using Instruction::Instruction;
+            // TODO: shared_ptr
+            AInstruction(string& ins, SymbolTable* st);
             string to_binary() override;
+        protected:
+            SymbolTable* _table;
     };
 
     // C-instruction (D=D+1;JEQ)

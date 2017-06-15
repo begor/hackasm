@@ -10,8 +10,8 @@ namespace HackAsm {
         public:
             int get(string key);
             bool contains(string key);
-            void put(string key, int value);
-            void put(string key);
+            int put(string key, int value);
+            int put(string key);
         
         private:
             int emptyMemReg = 16;

@@ -1,4 +1,4 @@
-@21
+@ololo
 D=D+1;JEQ
 M=A
 A=A+1;

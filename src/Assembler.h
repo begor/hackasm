@@ -13,11 +13,12 @@ namespace HackAsm {
     class Assembler {
         public:
             Assembler(string file_name, SymbolTable* table);
+            // TODO: decompose
             void assembly();
             
 
         private:
-            SymbolTable* _table;
+            SymbolTable* _table;  // TODO: shared_ptr
             string _input_file_name;
             string _output_file_name;
             program _asm_program;
