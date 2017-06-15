@@ -3,6 +3,7 @@
 #include <string>
 #include <fstream>
 #include <vector>
+#include "SymbolTable.h"
 
 using namespace std;
 
@@ -11,11 +12,12 @@ namespace HackAsm {
 
     class Assembler {
         public:
-            Assembler(string file_name);
+            Assembler(string file_name, SymbolTable* table);
             void assembly();
             
 
         private:
+            SymbolTable* _table;
             string _input_file_name;
             string _output_file_name;
             program _asm_program;

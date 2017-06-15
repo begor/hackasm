@@ -2,6 +2,7 @@
 #include "src/Assembler.h"
 
 using namespace std;
+using namespace HackAsm;
 
 
 int main(int argc, char* argv[]) {
@@ -12,10 +13,10 @@ int main(int argc, char* argv[]) {
 
     auto file_name = argv[1];
     
-    cout << "File name: " << file_name << endl;
-    
-    HackAsm::Assembler p = HackAsm::Assembler(file_name);
-    p.assembly();
+    SymbolTable st = SymbolTable();
+
+    Assembler asmbl = Assembler(file_name, &st);
+    asmbl.assembly();
     
     return 0;
 }

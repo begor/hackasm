@@ -8,7 +8,7 @@ using namespace std;
 using namespace HackAsm;
 
 
-Assembler::Assembler(string file_name) : _input_file_name(file_name) {  
+Assembler::Assembler(string file_name, SymbolTable* table) : _input_file_name(file_name), _table(table) {  
     get_output_file_name();  
     read_file();
 };
