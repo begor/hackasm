@@ -13,7 +13,6 @@ Assembler::Assembler(string filename) : _input(filename) {  set_output_filename(
 void Assembler::set_output_filename() {
     auto dot_pos = _input.find('.');
     _output = _input.substr(0, dot_pos) + ".hack";
-    cout << "Output file: " << _output << endl;
 };
 
 void Assembler::assembly() {

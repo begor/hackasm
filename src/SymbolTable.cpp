@@ -6,8 +6,6 @@ int SymbolTable::get(string key) {
     return _table[key];
 };
 
-// TODO: check exists
-
 int SymbolTable::put(string key) {
     _table[key] = emptyMemReg;
     return emptyMemReg++;

@@ -1,6 +1,7 @@
 #include "Parser.h"
 #include <algorithm>
 #include <memory>
+#include <iostream>
 
 using namespace std;
 using namespace HackAsm;
@@ -20,7 +21,7 @@ program Parser::parse(program& in) {
 program Parser::labels_and_comments(program& in) {
     program without_labels;
     
-    int line_no = 1;
+    int line_no = 0;
     for (string& inst : in) {
         string stripped = strip_instruction(inst);
 
@@ -32,7 +33,7 @@ program Parser::labels_and_comments(program& in) {
         if (first == '(') {
             string l = get_label(stripped);
             _table->put(l, line_no);
-        } else if (stripped.size() > 0) {
+        } else {
             ++line_no;
             without_labels.push_back(stripped);
         }
@@ -52,8 +53,8 @@ unique_ptr<Instruction> Parser::parse_instruction(string& inst) {
 };
 
 string Parser::strip_instruction(string& inst) {
-    inst.erase(0, inst.find_first_not_of(' '));
-    inst.erase(inst.find_last_not_of(' ') + 1);
+    inst.erase(remove_if(inst.begin(), inst.end(), ::isspace), inst.end());
+    inst.erase(remove(inst.begin(), inst.end(), '\n'), inst.end());
     
     if (!inst.empty()) {
         auto comment_start = inst.find("//");
